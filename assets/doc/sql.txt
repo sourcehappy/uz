@@ -1,0 +1,53 @@
+CREATE TABLE `item_baoming` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`num_iid` int(11) NOT NULL DEFAULT '0',
+	`detail_url` varchar(255) DEFAULT NULL,
+	`nick` varchar(50) DEFAULT NULL,
+	`title` varchar(255) DEFAULT NULL,
+	`pic_url` varchar(255) DEFAULT NULL,
+	`price` double(10,2) NOT NULL DEFAULT '0.00',
+	`price_xian` double(10,2) NOT NULL DEFAULT '0.00',
+	`beizhu` text,
+	`up_time` int(10) NOT NULL DEFAULT '0',
+	`class_id` varchar(30) DEFAULT NULL,
+	`status` int(2) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`)
+)
+//以上为准
+//删除修改gg
+
+create table `df_gg`(
+	`gg_id` int(11) NOT NULL AUTO_INCREMENT,
+	`gg_type` int(10) NOT NULL DEFAULT '0',
+	`gg_url` varchar(255) DEFAULT NULL,
+	`gg_pic` varchar(255) DEFAULT NULL,
+	`gg_title` varchar(255) DEFAULT NULL,
+	`sort` int(11) NOT NULL DEFAULT '0',
+	`up_time` datetime DEFAULT NULL,
+	PRIMARY KEY (`gg_id`)
+)ENGINE=MyISAM DEFAULT CHARSET=gbk AUTO_INCREMENT=1 
+
+create table `df_link`(
+	`link_id` int(10) NOT NULL AUTO_INCREMENT,
+	`url` varchar(255) DEFAULT NULL,
+	`title` varchar(255) DEFAULT NULL,
+	`img_path` varchar(255) DEFAULT NULL,
+	`up_time` datetime DEFAULT NULL,
+	`sort` int(10) NOT NULL DEFAULT '0',
+	PRIMARY KEY(`link_id`)
+)ENGINE=MyISAM DEFAULT CHARSET=gbk AUTO_INCREMENT=1 
+
+create table `df_shop`(
+	`shop_id` int(11) NOT NULL AUTO_INCREMENT,
+	`url` varchar(255) default null,
+	`title` varchar(255) default null,
+	`nick` varchar(80) default null,
+	`img_path` varchar(255) default null,
+	`memo` text,
+	`up_time` datetime default null,
+	`sort` int(11) not null default '0',
+	`class_id` int(11) not null default '0',
+	`commission` double(10,2) not null default '0.00',
+	primary key(`shop_id`)
+)ENGINE=MyISAM DEFAULT CHARSET=gbk AUTO_INCREMENT=1 
+

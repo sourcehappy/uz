@@ -1,0 +1,45 @@
+!!com.taobao.tae.config.domain.Config
+
+name: uz
+
+#网页标题的设置
+title: 豆腐网
+
+#应用描述信息
+description: 豆腐网
+
+#应用执行语言
+language: PHP
+
+#应用的作者
+author: soppy
+
+#应用的缩略图
+thumbnail: /assets/images/logo.jpg
+
+#应用适用的类型: 1 tae 模块 2 独立站点
+type: 2
+
+#全局css的配置
+css: /assets/stylesheets/new.css
+
+#首页 通过域名直接访问的页面如test.uz.taobao.com访问时的页面
+index: /front/index.php
+
+#http请求配置
+urls:
+#handler为实际的文件相对路径
+#url为短路径
+- {handler: /front/index.php , url: /index.php}
+- {handler: /front/baoming.php , url: /baoming.php}
+
+security:
+#安全和权限配置，默认是所有人都可以访问
+#这个是前缀规则, url代表请求相对路径的前缀。
+#role代表安全级别
+#anonymous是任何用户都可以访问
+#developer是站点所有者才能访问,
+#shopcustomer 是表示登录用户可以访问
+- {url: /admin , role: developer}
+- {url: /front , role: anonymous}
+
