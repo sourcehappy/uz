@@ -30,9 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					$ret = $db->update('vg_tag', $data, 'tag_id='.$id);
 				}else{
 					$data['tagpr_id'] = 0;
-					$data['img'] = 0;
-					$data['memo'] = 0;
-// 					$data['parent_class_id'] = 0;
+					$data['class_id'] = 0;
+					$data['img'] = '';
 					$data['memo'] = '';
 					$ret = $db->insert('vg_tag', $data);
 				}
@@ -47,6 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($act == 'del') {
 
 				$ret = $db->delete('vg_tag', 'tag_id='.$id);
+				$rets = $db->delete('vg_tag_prod_list', 'tag_id='.$id);
+				$rets = $db->delete('vg_tag_art_list', 'tag_id='.$id);
 				if ( ! $msg) {
 					if ($ret !== false) {
 						$msg = 'É¾³ý³É¹¦¡£';

@@ -2,11 +2,70 @@
 require './common/header.php';
 include("top/topclient.php"); //这里是引用tae的topclient
 include("top/ItemGetRequest.php"); //这里是引用具体的Request类
+include '../common/global.inc.php';
 
+$db = DB::instance();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+	$data = array();
+	$flag = false;
+	$id = intval($_POST['id']);
+	$data['num_iid'] = intval($_POST['num_iid']);
+	$data['detail_url'] = trim($_POST['detail_url']);
+	$data['nick'] = trim($_POST['nick']);
+	$data['title'] = trim($_POST['title']);
+	$data['pic_url'] = trim($_POST['pic_url']);
+	$data['price'] = $_POST['price'];
+	$data['price_xian'] = $_POST['price_xian'];
+	$data['beizhu'] = $_POST['beizhu'];
+	$data['class_id'] = $_POST['select'];
+	if (!$data['num_iid'])
+	{
+		$msg = '必须输入商品ID。';
+		$flag = true;
+	}
+	if ( ! $data['title']) {
+		$msg = '必须输入标题。';
+		$flag = true;
+	}
+	if ( ! $data['detail_url']) {
+		$msg = '必须输入链接。';
+		$flag = true;
+	}
+	if ( ! $data['pic_url']) {
+		$msg = '必须输入图片路径。';
+		$flag = true;
+	}
+	if ( ! $data['nick']) {
+		$msg = '必须输入掌柜呢称。';
+		$flag = true;
+	}
+	if(!$flag)
+	{
+			$data['up_time'] = new MySQLCode ( 'now()' );
+// 			$data['up_time'] = '';
+			$data['status'] = 0;
+			$ret = $db->insert('item_baoming', $data);
+		if ($ret !== false) {
+			$msg = '提交成功！我们将会在24小时内审核，审核通过便自动上线。';
+		}else{
+			$msg = '提交失败！';
+		}
+	}
+		
+}
+
+?>
+<?php 
+// 		$data = array();
+		$sqlparent = 'select class_id,name,parent_class_id from vg_class where parent_class_id=0 order by class_id';
+		$options = array();
+		$options = $db->getAll($sqlparent);
 ?>
 <div class="clearboth"></div>
 <div class="baoming_main">
 	<div class="bmtp">
+	<p><?php if ($msg) echo '<font color="red">'.$msg.'</font><br /><br />';?></p>
 	<p style="color: red;font-size:18px;margin:5px 0 0 20px">报名须知:</p>
 	<p>1.必须点击<b style="color:blue;">喜欢小站</b>；</p>
 	<p>2.店家需要参加淘宝客推广项目，佣金必须大于<b style="color: red;">5%</b>；</p>
@@ -20,61 +79,34 @@ include("top/ItemGetRequest.php"); //这里是引用具体的Request类
 		<form id="form1" name="form1" method="post" action="baoming.php">
 		<input type="hidden" name="id" id="id" value="<?=$data['id']?>" />
 		 <p>以下带(<b style="color: red">*</b>)号为必填项</p>
-		 <p><span style="margin:auto 62px auto 0px;">商品ID(<b style="color: red">*</b>):</span><input type="text" name="num_iid" id="num_iid" value="<?=$data['num_iid']?>" /><input type="button" name="get_item" id="get_item" style="margin:5px 0 0 30px;;width:30px;" value="获取商品"></p>
+		 <p><span style="margin:auto 62px auto 0px;">商品ID(<b style="color: red">*</b>):</span><input type="text" name="num_iid" id="num_iid" value="<?=$data['num_iid']?>" /><!-- <input type="button" name="get_item" id="get_item" style="margin:5px 0 0 30px;;width:30px;" value="获取商品"> --></p>
+		 <p>右边商品链接中，红色的即为商品id:    http://detail.tmall.com/item.htm?id=<span style="color:red;">21453704739</span></p>
 		 <p><span style="margin:auto 50px auto 0px;">商品地址(<b style="color: red">*</b>):</span><input type="text" name="detail_url" id="detail_url"  size="100" value="<?=$data['detail_url']?>" /></p>
 		 <p><span style="margin:auto 50px auto 0px;">商品标题(<b style="color: red">*</b>):</span><input type="text" name="title" id="title"  size="100" value="<?=$data['title']?>" /></p>
 		 <p><span style="margin:auto 50px auto 0px;">图片地址(<b style="color: red">*</b>):</span><input type="text" name="pic_url" id="pic_url"  size="100" value="<?=$data['pic_url']?>" /></p>
-		 <p class="image"><img src="<?=$data['pic_url']?>" width="250px"></p>
+		 <p style="height:250px;text-align:center;"><img src="<?=$data['pic_url']?>" width="250px"></p>
 		 <p><span style="margin:auto 74px auto 0px;">原价(<b style="color: red">*</b>):</span><input type="text" name="price" id="price"  value="<?=$data['price']?>" /></p>
 		 <p><span style="margin:auto 74px auto 0px;">现价(<b style="color: red">*</b>):</span><input type="text" name="price_xian" id="price_xian" value="<?=$data['price_xian']?>" /><span style="color:red;">若有变动，必须更改</span></p>
 		 <p><span style="margin:auto 93px auto 0px;">备注:</span><input type="text" name="beizhu" id="beizhu"  size="100" value="<?=$data['beizhu']?>" /></p>
-		 <p><span style="margin:auto 74px auto 0px;">分类(<b style="color: red">*</b>):</span><input type="text" name="class_id" id="class_id"  size="50" value="<?=$data['class_id']?>" /></p>
+
+          <p><span style="margin:auto 74px auto 0px;">分类(<b style="color: red">*</b>):</span>
+          <select name="select">
+          <?php foreach ($options as $op) { ?>
+          <option value="<?=$op['class_id']?>" disabled="disabled"><?=$op['class_id']?>:<?=$op['name']?></option>
+          <?php 
+          	$sqlc = 'select class_id,name,parent_class_id from vg_class where parent_class_id ='.$op['class_id'];
+          	$opc = array();
+          	$opc = $db->getAll($sqlc);
+          	foreach ($opc as $child){
+          ?>         
+          	<option value="<?=$child['class_id']?>">&nbsp;&nbsp;<?=$child['name']?></option>
+
+          <?php }}?>
+          </select></p>
+       
 		 <p><span style="margin:auto 74px auto 0px;">旺旺(<b style="color: red">*</b>):</span><input type="text" name="nick" id="nick"  size="50" value="<?=$data['nick']?>" /></p>
-		 <p ><input type="submit" name="tijiao" id="tiaojiao" value="提交" style="margin:5px 0 0 250px;background:green;width:30px;color:#fff;" /></p>
+		 <p ><input type="submit" name="button" id="button" value="提交" style="margin:5px 0 0 250px;background:green;width:50px;color:#fff;" /></p>
 		
-		<!--  
-		 <table width="100%">
-		 <tr>
-          <td width="16%" bgcolor="#eeeeee" align="center">商品ID(<b style="color: red">*</b>):</td>
-          <td width="82%"><input type="text" name="num_iid" id="num_iid" value="<?=$data['num_iid']?>" /><input type="button" name="get_item" id="get_item" value="获取商品"></td>
-        </tr>
-        <tr>
-          <td bgcolor="#eeeeee" align="center">商品地址(<b style="color: red">*</b>):</td>
-          <td><input type="text" name="detail_url" id="detail_url"  size="100" value="<?=$data['detail_url']?>" /></td>
-        </tr>
-        <tr>
-          <td bgcolor="#eeeeee" align="center">商品标题(<b style="color: red">*</b>):</td>
-          <td><input type="text" name="title" id="title"  size="100" value="<?=$data['title']?>" /></td>
-        </tr>
-        <tr>
-          <td bgcolor="#eeeeee" align="center">图片地址(<b style="color: red">*</b>):</td>
-          <td><input type="text" name="pic_url" id="pic_url"  size="100" value="<?=$data['pic_url']?>" /></td>
-        </tr>
-        <tr>
-          <td bgcolor="#eeeeee" align="center">原价(<b style="color: red">*</b>):</td>
-          <td><input type="text" name="price" id="price"  value="<?=$data['price']?>" /></td>
-        </tr>
-        <tr>
-          <td bgcolor="#eeeeee" align="center">现价(<b style="color: red">*</b>):</td>
-          <td><input type="text" name="price_xian" id="price_xian" value="<?=$data['price_xian']?>" /></td>
-        </tr>
-        <tr>
-          <td bgcolor="#eeeeee" align="center">备注</td>
-          <td><input type="text" name="beizhu" id="beizhu"  size="100" value="<?=$data['beizhu']?>" /></td>
-        </tr>
-        <tr>
-          <td bgcolor="#eeeeee" align="center">分类(<b style="color: red">*</b>):</td>
-          <td><input type="text" name="class_id" id="class_id"  size="50" value="<?=$data['class_id']?>" /></td>
-        </tr>
-        <tr>
-          <td bgcolor="#eeeeee" align="center">旺旺(<b style="color: red">*</b>):</td>
-          <td><input type="text" name="nick" id="nick"  size="50" value="<?=$data['nick']?>" /></td>
-        </tr>
-         <tr>
-          <td align="center" bgcolor="#eee"><input type="button" name="tijiao" id="tiaojiao" value="提交" /></td>
-        </tr>
-		 </table>
-		 -->
 		</form>
 	</div>
 </div>

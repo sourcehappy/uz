@@ -60,7 +60,7 @@ require './common/header.php';
 			</div>
 			<div class="item_sail">
 				<span>£¤:<?='12121'?>Ôª</span>
-				<div class="link_to"><a href="#"><img src="/assets/images/sail_bg.gif" alt="È¥¹ºÂò" /></a></div>
+				<div class="link_to"><a href="#"><img src="/assets/images/pay1.jpg" alt="È¥¹ºÂò" /></a></div>
 			</div>
 		</div>
 		<div id="clearboth"></div>	

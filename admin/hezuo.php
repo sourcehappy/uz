@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$data['memo'] = $_POST['memo'];
 			$data['commission'] = floatval($_POST['commission']);
 			$data['nick'] = trim($_POST['nick']);
-			
+			$data['class_id'] = intval($_POST['select']);
 			if ( ! $data['title']) {
 				$msg = '必须输入标题。';
 				$flag = true;
@@ -35,6 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			}
 			if ( ! $data['img_path']) {
 				$msg = '必须输入图片路径。';
+				$flag = true;
+			}
+			if ( ! $data['nick']) {
+				$msg = '必须输入掌柜呢称。';
 				$flag = true;
 			}
 			if(!$flag)
@@ -78,7 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$data = array();
 		if ($act == 'edit') {
 			$data = $db->getOne('select * from df_shop where shop_id='.$id);
-		}				
+		}	
+		$sqls = 'select class_id,name from vg_class where parent_class_id = 0 order by class_id';
+		$options = array();
+		$options = $db->getAll($sqls);
 ?>
 <!--添加商品分类和修改分类-->
   <form id="form1" name="form1" method="post" action="/admin/hezuo.php">
@@ -116,7 +123,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
               <tr>
           <td bgcolor="#eeeeee">类别id(<b style="color: red">*</b>)</td>
-          <td ><input type="text" name="class_id" id="class_id" size ="30" value="<?=$data['class_id']?>" />
+          <td ><!--  <input type="text" name="class_id" id="class_id" size ="30" value="<?=$data['class_id']?>" /> -->
+          <select name="select">
+          <?php foreach ($options as $op) {?>
+          <option value="<?=$op['class_id']?>"><?=$op['name']?></option>
+          <?php }?>
+          </select>
           </td>
         </tr>
               <tr>
@@ -139,7 +151,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <td width="3%">id</td>
         <td width="18%">标题</td>
         <td width="8%">掌柜呢称</td>
-        <td width="15%">描述</td>
         <td width="20%">图片</td>
         <td width="20%">链接</td>
         <td width="3%">排序</td>
@@ -153,7 +164,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  		<td><?=$row['shop_id']?></td>
         <td><?=$row['title']?></td>
         <td><?=$row['nick']?></td>
-        <td><?=$row['memo']?></td>
         <td><img src="<?=$row['img_path']?>" width="100px"/></td>
          <td><?=$row['url']?></td>
         <td><?=$row['sort']?></td>

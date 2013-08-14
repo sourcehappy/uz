@@ -15,13 +15,17 @@ $sql ='select count(*) from vg_art_property';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 			$data = array();
+			
 			$flag = false;
 			$id = intval($_POST['art_id']);
 			$data['title'] = trim($_POST['title']);
 			$data['text'] = trim($_POST['text']);
 			$data['jump_url'] = trim($_POST['jump_url']);
 			$data['main_img'] = trim($_POST['main_img']);
-			$data['artpr_id'] = intval($_POST['artpr_id']);
+			$data['artpr_id'] = intval($_POST['select']);
+			$tagId = array();
+			$tagId = $_POST['tag_ids'];
+			
 			if ( ! $data['title']) {
 				$msg = '必须输入标题。';
 				$flag =true;
@@ -51,12 +55,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				}else{
 					$data['is_top'] = 0;
 					$data['class_id'] = 0;
-// 					$data['artpr_id'] = 0;
 					$data['create_time'] = new MySQLCode('now()');
 					$ret = $db->insert('vg_article', $data);
-				
 				}
 				if ($ret !== false) {
+					$sql = 'select art_id from vg_artical where title ='.$data['title'];
+					$resultId = $db->getOne($sql);
+					$d = array();
+					foreach ($tagId as $ta){
+						$d['tag_id'] = $ta;
+						$d['art_id'] = $resultId['art_id'];
+						$ret = $db->insert('vg_tag_art_list', $d);
+					}
+					
 					$msg = '保存成功。';
 					$flag = false;
 				}else {
@@ -69,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($act == 'del') {
 		
 			$ret = $db->delete('vg_article', 'art_id='.$id);
+			$ret = $db->delete('vg_tag_art_list', 'art_id='.$id);
 			if ( ! $msg) {
 				if ($ret !== false) {
 					$msg = '删除成功。';
@@ -86,7 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
  <?php 
  	if ($msg) echo '<font color="red">'.$msg.'</font><br /><br />';
- 	
+ 	print_r($tagId);
+ 	echo $lastId;
  $sql = 'select art_id,artpr_id,title,main_img,jump_url from vg_article order by art_id desc';
  $rec = true;
  $list = getPageData($sql, $p, $rec);
@@ -97,8 +110,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  }
  
  $artpr_names = array();
- $sql = 'select * from vg_art_property order by artpr_id';
+ $sql = 'select * from vg_art_property order by artpr_id desc';
  $artpr_names = $db->getAll($sql);
+ 
+ $tags = array();
+ $sql = 'select * from vg_tag order by tag_id desc';
+ $tags = $db->getAll($sql);
  ?>
  
  <!--添加文章-->
@@ -132,11 +149,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
            <tr>
           <td width="16%" bgcolor="#eeeeee">文章类型(<b style="color: red">*填对应数字</b>):</td>
-          <td width="82%"><input type="text" name="artpr_id" id="artpr_id"  size="100" value="<?=$data['artpr_id']?>" /><select>
+          <td width="82%"><!--  <input type="text" name="artpr_id" id="artpr_id"  size="100" value="<?=$data['artpr_id']?>" />-->
+          <select name="select">
           <?php 
           		foreach ($artpr_names as $name){
           ?>
-  		<option value ="<?=$name['artpr_id']?>"><?=$name['artpr_id']?>:<?=$name['name']?></option>
+  		<option value ="<?=$name['artpr_id']?>"><?=$name['name']?></option>
+  		<?php }?>
+		</select></td>
+        </tr>
+        <tr>
+          <td width="16%" bgcolor="#eeeeee">标签:</td>
+          <td width="82%">
+          <select name="tag_ids[]" multiple="multiple">
+          <?php 
+          		foreach ($tags as $tag){
+          ?>
+  		<option value ="<?=$tag['tag_id']?>"><?=$tag['name']?></option>
   		<?php }?>
 		</select></td>
         </tr>

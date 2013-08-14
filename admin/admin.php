@@ -17,7 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$data = array();
 			$flag = false;
 			$id = intval($_POST['class_id']);
-			$data['parent_class_id'] = intval($_POST['parent_class_id']);
+			$data['parent_class_id'] = intval($_POST['select']);
+			
 			$data['name'] = trim($_POST['name']);
 			$data['order'] = intval($_POST['order']);
 			$data['img'] = trim($_POST['img']);
@@ -94,14 +95,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
       <tr>
           <td bgcolor="#eeeeee">父类id(<b style="color: red">*</b>)-0表示无父类：</td>
-          <td ><input type="text" name="parent_class_id" id="parent_class_id" size ="30" value="<?=$data['parent_class_id']?>" />
-         <select>
-          <?php foreach ($options as $op)
-          {
-          	?>
-          	<option value="<?=$op['class_id']?>"><?=$op['class_id']?>:<?=$op['name']?></option>
+          <td ><!--  <input type="text" name="parent_class_id" id="parent_class_id" size ="30" value="<?=$data['parent_class_id']?>" />-->
+         <select name="select">
+         	<option value="0">父类</option>
+          <?php foreach ($options as $op){ ?>
+          	<option value="<?=$op['class_id']?>"><?=$op['name']?></option>
 			<?php }?>
-         </select><span style="color:red">一级目录才显示</span>
+         </select>
           </td>
         </tr>
         <tr>

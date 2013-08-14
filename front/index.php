@@ -5,7 +5,6 @@
 	require './common/header.php';
 
 	$gg = GG::getAll();
-	
 ?>
 <div id="clearboth"></div>
 <div class="df_main">
@@ -15,19 +14,19 @@
 		
 		</div>
 		<div class="right_con">
-			<div class="ad">
-			</div>
-			<div id="clearboth"></div>
-			<div class="bm_con">
-				<ul>
-				<?php foreach ($gg as $ggrow){?>
-					<li><a href="<?=$ggrow['gg_url']?>"><img src="<?=$ggrow['gg_pic']?>" width="100px" alt="<?=$ggrow['gg_title']?>" /></a></li>
+			<div style="position: relative; left:0px; top:0px;width:635px">
+			<div class="banner">
+	        <div class="banner_bg" style="opacity: 0.3;"></div>
+	        <ul class="list"></ul>
+	        <div class="banner_list"> 
+	        	<?php foreach ($gg as $ggrow){?>
+					<a href="<?=$ggrow['gg_url']?>"><img src="<?=$ggrow['gg_pic']?>" width="633px" height="350px" alt="<?=$ggrow['gg_title']?>" /></a>
 					<?php }?>
-					<li>fdaf</li>
-					<li>afafa</li>
-					<li>afad</li>
-				</ul>
-				</div>
+		</div>
+      </div>
+			</div>
+			
+		
 			</div>
 		</div>
 		<!--广告及目录结束 -->

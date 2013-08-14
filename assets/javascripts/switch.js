@@ -9,7 +9,6 @@
  **************************************************/
 var DOM = KISSY.DOM  ;
 var Anim = KISSY.Anim ;
-
 var SWTICH = function() {
 	function id(name) {return DOM.query("."+name)[0];}
 	//±éÀúº¯Êý

@@ -14,8 +14,8 @@ if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 	
 	$data = array ();
 	$flag = false;
-	$id = intval ( $_POST ['artpr_id'] );
-	$data ['name'] = trim ( $_POST ['name'] );
+	$id = intval($_POST['artpr_id']);
+	$data ['name'] = trim($_POST['name']);
 	if (! $data ['name']) {
 		$msg = '必须输入类型名称!';
 		$flag = true;
@@ -23,18 +23,10 @@ if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
 	}
 	if (! $flag) {
 		if ($id) {
-			if($db->getValue('select count(*) from vg_art_property where id='.$id))
-			{
 				$ret = $db->update ( 'vg_art_property', $data, 'artpr_id=' . $id );
-			}
+
 		} else {
-			$count =  $db->getValue('select count(*) as rc from vg_art_property');
-// 			echo "coount::::$count";
-			$data['artpr_id'] = $count + 1;
-// 			$data ['name'] = new MySQLCode ( 'now()' );
-			//这行导致不能插入数据库
 			$ret = $db->insert ( 'vg_art_property', $data );
-			$data['name'] = null;
 		}
 		if ($ret !== false) {
 			$msg = '保存成功。';
