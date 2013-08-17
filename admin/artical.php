@@ -19,15 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$flag = false;
 			$id = intval($_POST['art_id']);
 			$data['title'] = trim($_POST['title']);
+			$data['author'] = trim($_POST['author']);
 			$data['text'] = trim($_POST['text']);
 			$data['jump_url'] = trim($_POST['jump_url']);
 			$data['main_img'] = trim($_POST['main_img']);
 			$data['artpr_id'] = intval($_POST['select']);
+			$data['sort'] = intval($_POST['sort']);
 			$tagId = array();
 			$tagId = $_POST['tag_ids'];
 			
 			if ( ! $data['title']) {
 				$msg = '必须输入标题。';
+				$flag =true;
+			}
+			if ( ! $data['author']) {
+				$msg = '必须输入作者。';
 				$flag =true;
 			}
 			else if ( ! $data['text']) {
@@ -43,11 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$flag =true;
 			}
 			// 			$db->setDebug();
-			if($data['artpr_id']>$db->getValue($sql))
-			{
-				$msg = '文章类型id输入有误';
-				$flag = true;
-			}
+
 			if(!$flag)
 			{
 				if ($id) {
@@ -98,9 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
  <?php 
  	if ($msg) echo '<font color="red">'.$msg.'</font><br /><br />';
- 	print_r($tagId);
- 	echo $lastId;
- $sql = 'select art_id,artpr_id,title,main_img,jump_url from vg_article order by art_id desc';
+
+ $sql = 'select art_id,artpr_id,title,author,sort,main_img,jump_url from vg_article order by art_id desc';
  $rec = true;
  $list = getPageData($sql, $p, $rec);
  
@@ -130,6 +131,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <td width="82%"><input type="text" name="title" id="title"  size="100" value="<?=$data['title']?>" /></td>
         </tr>
         <tr>
+          <td bgcolor="#eeeeee">作者(<b style="color: red">*</b>):</td>
+          <td><input type="text" name="author" id="author"  size="100" value="<?=$data['author']?>" /></td>
+        </tr>
+        <tr>
           <td bgcolor="#eeeeee">文章内容(<b style="color: red">*</b>):</td>
           <td>
           <div class="kg_editorContainer"   data-config='{"width" : "800px" , "height": "250px" }'>
@@ -147,8 +152,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <td bgcolor="#eeeeee">图片地址：</td>
           <td><input type="text" name="main_img" id="main_img"  size="100" value="<?=$data['main_img']?>" /></td>
         </tr>
+         <tr>
+          <td bgcolor="#eeeeee">排序(数字大优先)：</td>
+          <td><input type="text" name="sort" id="sort"  size="100" value="<?=$data['sort']?>" /></td>
+        </tr>
            <tr>
-          <td width="16%" bgcolor="#eeeeee">文章类型(<b style="color: red">*填对应数字</b>):</td>
+          <td width="16%" bgcolor="#eeeeee">文章类型:</td>
           <td width="82%"><!--  <input type="text" name="artpr_id" id="artpr_id"  size="100" value="<?=$data['artpr_id']?>" />-->
           <select name="select">
           <?php 
@@ -183,7 +192,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <td width="5%">id</td>
         <td width="5%">文章类型</td>
         <td width="25%">文章标题</td>
-        <td width="20%">跳转地址</td>
+        <td width="15%">作者</td>
+        <td width="5%">排序</td>
         <td width="20%">文章图片</td>
         <td width="10%">操作</td>
       </tr>
@@ -194,7 +204,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <td><?=$row['art_id']?></td>
         <td><?=$row['artpr_id']?></td>
         <td><?=$row['title']?></td>
-        <td><?=$row['jump_url']?></td>
+        <td><?=$row['author']?></td>
+        <td><?=$row['sort']?>
         <td><img src="<?=$row['main_img']?>_100x100.jpg" /></td>
         <td><a href="/admin/artical.php?act=edit&id=<?=$row['art_id']?>">修改</a> <a href="/admin/artical.php?act=del&id=<?=$row['art_id']?>">删除</a></td>
       </tr>

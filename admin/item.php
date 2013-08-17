@@ -23,6 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$data['order'] = intval($_POST['order']);
 	$data['class_id'] = intval($_POST['select']);
 	$data['click_url'] = trim($_POST['click_url']);
+	$d = strtok($data['click_url'], "?");
+	$d = $d."?id=".$data['item_id'];
+	$data['click_url'] = $d;
 	$tag_ids = array();
 	$tag_ids = $_POST['tag_ids'];
 	
@@ -41,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$flag = true;
 	}
 	if ( ! $data['main_img']) {
-		$msg = '必须输入主图。';
+		$msg = '必须输入图片地址。';
 		$flag = true;
 	}
 	if ( ! $data['item_id']) {
@@ -93,9 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  
  <?php 
 if ($msg) echo '<font color="red">'.$msg.'</font><br /><br />';
-print_r($resultId);
-print_r($tag_ids);
 
+// print_r($d);
 
 		$sql = 'select * from vg_product order by prod_id desc';
 		$rec = true;

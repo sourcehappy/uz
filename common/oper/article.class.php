@@ -24,8 +24,27 @@ class Article {
 	
 	public static function get($artId) {
 		$db = DB::instance();
-		$sql = 'select art_id,title,main_img,`text`,class_id from vg_article where art_id='.$artId;
+		$sql = 'select * from vg_article where art_id='.$artId;
 		return $db->getOne($sql);
+	}
+	/*
+	 * @ $art_id 根据文章id
+	 * @ 返回文章类别
+	 */
+	public static function getArticle($art_id)
+	{
+		$db = DB::instance();
+		$sql = "select * from vg_art_property as n left join vg_article as a on n.artpr_id = a.artpr_id where a.art_id =$art_id";
+		$result =  $db->getOne($sql);
+// 		print_r($result);
+		return $result;
+	}
+	public static function getAticleByTag(&$rec, $tagId, $start, $limit = 50){
+		
+	}
+	public static function getArticleByClass(&$rec, $classId, $start, $limit = 50)
+	{
+		
 	}
 	
 }

@@ -87,7 +87,7 @@ class Product {
 	public static function get($id) {
 		$db = DB::instance();
 		
-		$sql = 'select * from vg_product where status=1 and prod_id='.$id;
+		$sql = 'select * from vg_product where prod_id='.$id;
 		$ret = $db->getOne($sql);
 		
 		return $ret;
@@ -98,4 +98,72 @@ class Product {
 		
 		$db->update('vg_product', array('click_num'=>new MySQLCode('click_num+1')), 'prod_id='.$prodId);
 	}
+	public static function getListByOrder($parentName,$num = 8){
+		$db = DB::instance();
+		$name = trim($parentName);
+// 		echo $name;
+		$sql = "SELECT * \n"
+				. "FROM vg_product AS p\n"
+				. "LEFT JOIN vg_class AS c ON p.class_id = c.class_id\n"
+				. "LEFT JOIN vg_class AS pc ON c.parent_class_id = pc.class_id\n"
+				. "WHERE pc.name = '$name'\n"
+				. "ORDER BY p.order DESC limit 0,$num";
+		return $db->getAll($sql);
+
+	}
+	public static function getListByParentId($parentId,$start,$limit = 50){
+		$db = DB::instance();
+		$parentId = intval($parentId);
+		$sql = "SELECT * \n"
+				. "FROM vg_product AS p\n"
+				. "LEFT JOIN vg_class AS c ON p.class_id = c.class_id\n"
+				. "WHERE c.parent_class_id = '$parentId'\n"
+				. "ORDER BY p.order DESC limit $start,$limit";
+		$ret = $db->getAll($sql);
+// 		print_r($ret);
+		return $ret;
+		
+	}
+	public static function getListById($classId){
+		$db = DB::instance();
+		$sql = 'select * from vg_product as p where class_id ='.$classId;
+		return $db->getAll($sql);
+	}
+	public static function getListByClassId(&$rec,$classId,$start,$limit = 50){
+		$db = DB::instance();
+// 		$n = trim($name);
+		$sql = 'select * from vg_class where parent_class_id=0 and class_id='.$classId;
+		$ret = $db->getAll($sql);
+// 		print_r($ret);
+		if(!empty($ret)){
+			
+			$sql = "SELECT * \n"
+					. "FROM vg_product AS p\n"
+					. "LEFT JOIN vg_class AS c ON p.class_id = c.class_id\n"
+							. "WHERE c.parent_class_id = '$classId'\n"
+							. "ORDER BY p.order DESC ";
+			if ($rec === true) {
+				//echo 'select count(*) as rc from ('.$sql.') as t';
+				$rec = $db->getValue('select count(*) as rc from ('.$sql.') as t');
+			}
+			$sql .= ' limit '.$start.','.$limit;
+			$ret = $db->getAll($sql);
+// 			print_r($ret);
+			
+		}else{
+			$sql = "select * from vg_product as p where p.class_id='$classId' order by p.order desc ";
+			if ($rec === true) {
+				//echo 'select count(*) as rc from ('.$sql.') as t';
+				$rec = $db->getValue('select count(*) as rc from ('.$sql.') as t');
+			}
+			$sql .= ' limit '.$start.','.$limit;
+			
+			$ret = $db->getAll($sql);
+// 			print_r($ret);
+			
+		}
+		return $ret;
+	
+	}
+	
 }

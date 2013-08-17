@@ -1,5 +1,12 @@
 <?php
+require('../common/global.inc.php');
 require './common/header.php';
+$tid = intval($_GET['tid']);
+$p = intval($_GET['p']);
+$act = trim($_GET['act']);
+$tid = $tid>0 ? $tid:1;
+
+$item = Product::get($tid); // 获得商品信息
 
 ?>
 <div id="clearboth"></div>
@@ -7,18 +14,18 @@ require './common/header.php';
 
 	<!-- 左边begin -->
 	<div class="item_left">
-		<div class="item_text">宝贝，十大放大阿凡达</div>
-		<div class="item_pl">
+		<div class="item_text"><img src="<?php echo $item['main_img']?>" alt="<?php echo $item['title'];?>" /><br/><?=$item['memo']?></div>
+		<div class="item_pl" id="pl">
 			<div class="sns-widget"
 				data-comment='{
 				"isAutoHeight":true,
    					"param":{
-    				"target_key":"<?php echo '121211'?>",
+    				"target_key":"<?php echo $item['item_id'];?>",
         			"type_id":"1100035",
-        			"rec_user_id":"<?=1121211212?>",
+        			"rec_user_id":"<?php echo $item['item_id'];?>",
         			"view":"detail_list",
-        			"title":"<?php echo '活动';?>",
-       				 "moreurl":"http://doufuwang.uz.taobao.com/item?p=<?=4343?>" },
+        			"title":"<?php echo $item['title'];?>",
+       				 "moreurl":"http://doufuwang.uz.taobao.com/item.php?tid=<?=$item['prod_id']?>" },
     				"paramList":{"view":"list_trunPage"}}'></div>
 		</div>
 
@@ -35,32 +42,31 @@ require './common/header.php';
     		text:"喜欢",
     		skinType:2,
    			type:3,
-   			key:"",
+   			key:"<?=$item['item_id']?>",
     		client_id:68
 			}'
-						class="sns-widget">喜欢</div>
-				</div>
-				<div class="item_share">
-					<div
-						data-sharebtn='{
+		class="sns-widget">喜欢</div></div>
+		<div class="item_share">
+			<div
+			data-sharebtn='{
 			skinType:1,
-			type:"item",
-			key:"<?php echo '12121'?>",
-			comment:"",
-			pic:"",
+			type:"webpage",
+			key:"http://doufuwang.uz.taobao.com/item.php?tid=<?=$item['prod_id']?>",
+			comment:"我刚刚在U站【豆腐网】里发现一个很不错的东东，你也来看看！",
+			pic:"<?php echo $item['main_img'];?>",
 			client_id:68,
-			isShowFriend:true
+			title:"【豆腐网U站】<?php echo $item['title']?>",
+			isShowFriend:false
 			}'
-						class="sns-widget">分享</div>
-				</div>
+			class="sns-widget">分享</div></div>
 
 			</div>
 			<div class="item_title">
-				<p>宝贝标题...........................</p>
+				<p><?=$item['title']?></p>
 			</div>
 			<div class="item_sail">
-				<span>￥:<?='12121'?>元</span>
-				<div class="link_to"><a href="#"><img src="/assets/images/pay1.jpg" alt="去购买" /></a></div>
+				<span>￥:<?=$item['price']?>元</span>
+				<div class="link_to"><a href="<?=$item['click_url']?>"><img src="/assets/images/pay1.jpg" alt="去购买" /></a></div>
 			</div>
 		</div>
 		<div id="clearboth"></div>	

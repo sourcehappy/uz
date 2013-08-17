@@ -126,12 +126,12 @@ var SWTICH = function() {
 					self.num[elemidx].className='on';
 					}
 			});
-			//this.info.innerHTML=self.img[idx].firstChild.title;
+//			this.info.innerHTML=self.img[idx].firstChild.title;
 		}
 	}
 }();
 if (DOM.query(".banner_list").length > 0 ) {
-	SWTICH.scroll(3,"banner_list","list","banner_info",4000);
+	SWTICH.scroll(4,"banner_list","list","banner_info",4000);
 }
 
 //ÆÙ²¼Á÷

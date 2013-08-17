@@ -15,7 +15,7 @@ body{
 	
 
 }
-/*×ó²à¿ò¼Ü*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½*/
 #vgogoleft{
 float:left;
 width:208px;
@@ -115,7 +115,7 @@ overflow:hidden;
 
 
 
-/*ÓÒ²à¿ò¼Ü*/
+/*ï¿½Ò²ï¿½ï¿½ï¿½*/
 #vgogoright{
 float:left;
 width:680px;
@@ -190,7 +190,7 @@ margin-right:20px;
 #vgogonavigationstyle{
 margin-top:10px;
 }
- /*½¹µãÍ¼*/
+ /*ï¿½ï¿½ï¿½ï¿½Í¼*/
  #vgogoindexturn{
  	margin-top:20px;
  	height:373px;
@@ -241,7 +241,7 @@ overflow:hidden;
 margin-left:10px;
 		color:#6a6a6a;  	 
 }
-/*×îÐÂÉÏ¼Ü±¦±´*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ü±ï¿½ï¿½ï¿½*/
 #indexnewsitem{
  margin-top:10px;
  width:680px;
@@ -273,7 +273,7 @@ margin-left:10px;
 	width:680px;
 
 }
-<!--¹«¹²ÉÌÆ·ÁÐ±í-->
+<!--ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½Ð±ï¿½-->
 #vgogoitemlist{
 	width:130px;
 	
@@ -282,7 +282,7 @@ vgogoitemlistpic{ width:130px;}
 #vgogoitemlistprice{ margin-top:15px; width:130px; font-size:12px;}
 #vgogoitemlisttitle{ width:130px; font-size:12px; margin-top:15px;}
 
-/*Ðü¸¡*/
+/*ï¿½ï¿½*/
 #vgogofloat{
  float:left;
  width:90px;
@@ -294,21 +294,21 @@ vgogoitemlistpic{ width:130px;}
  min-height:768px;
  position:fixed;}
 
-/* Í¼Æ¬ÂÖÑ­  */
+/* Í¼Æ¬ï¿½ï¿½Ñ­  */
 .banner {position:relative; width:250px; height:250px; overflow:hidden;z-index:1;}
 .banner_list {position:relative;}
 .banner_list img {border:0px;}
-.banner_bg {position:absolute; bottom:0;background-color:#000;height:30px;filter: Alpha(Opacity=30);opacity:0.3;z-index:1000;cursor:pointer; width:250px; }
+.banner_bg {position:absolute; bottom:0;background-color:#000;height:30px;filter: Alpha(Opacity=30);opacity:0.3;z-index:1000; width:250px; }
 .banner_info{position:absolute; bottom:0; left:5px; line-height:30px;color:#fff;z-index:1001}
 .banner_text {position:absolute;width:120px;z-index:1002; right:3px; bottom:3px;}
 .banner ul {position:absolute;list-style-type:none;filter: Alpha(Opacity=75);opacity:0.75; border:1px solid #fff;z-index:1002;margin:0; padding:0; bottom:3px; right:5px;}
-.banner ul li { padding:0px 8px;float:left;display:block;color:#FFF;border:#fff 1px solid;background-color:#6f4f67;cursor:pointer}
+.banner ul li { padding:0px 10px;float:left;display:block;color:#FFF;border:#fff 1px solid;background-color:#6f4f67;cursor:pointer}
 .banner ul li.on{ background-color:#900}
 .banner_list a{position:absolute;display:block;z-index:100;}
 .banner_list a.in{opacity:0;z-index:1;}
 	
 /**
-ÆÙ²¼Á÷
+ï¿½Ù²ï¿½ï¿½ï¿½
 **/
 .taeapp  .wrap{position:relative;zoom:1;margin:0px auto;visibility:hidden;margin-top:20px;min-height:1900px;width:680px}
 .taeapp  .wrap.isVisble{visibility:visible;}
@@ -328,7 +328,7 @@ vgogoitemlistpic{ width:130px;}
 .taeapp .mode .pic a img{width:200px;vertical-align: bottom;}
 
 
-/**±¦±´ÏêÇéÒ³*/
+/**ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³*/
 
 #vgogoitembody{
 	width:680px;

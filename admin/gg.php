@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
  
  $data = array();
  if ($act == 'edit') {
- 	$data = $db->getOne('select * from df_gg where id='.$id);
+ 	$data = $db->getOne('select gg_id,gg_type,gg_url,gg_pic,gg_title,sort from df_gg where id='.$id);
  }
  
  $artpr_names = array();

@@ -5,137 +5,91 @@
 	require './common/header.php';
 
 	$gg = GG::getAll();
+	$classList = ClassData::getList(0);
+	$wanhao = Product::getListByOrder('吃好');
+	$chihao = Product::getListByOrder('吃好');
+	$chuanhao = Product::getListByOrder('穿好');
+	$yonghao = Product::getListByOrder('吃好');
+	$mmhao = Product::getListByOrder('吃好');
+	
 ?>
 <div id="clearboth"></div>
 <div class="df_main">
 	<!--广告及目录开始 -->
 	<div class="ad_con">
-		<div class="left_con">
-		
-		</div>
-		<div class="right_con">
-			<div style="position: relative; left:0px; top:0px;width:635px">
+		<div style="position: relative; left:0px; top:0px;width:950px">
 			<div class="banner">
 	        <div class="banner_bg" style="opacity: 0.3;"></div>
 	        <ul class="list"></ul>
 	        <div class="banner_list"> 
 	        	<?php foreach ($gg as $ggrow){?>
-					<a href="<?=$ggrow['gg_url']?>"><img src="<?=$ggrow['gg_pic']?>" width="633px" height="350px" alt="<?=$ggrow['gg_title']?>" /></a>
+					<a href="<?=$ggrow['gg_url']?>" target="_blank"><img src="<?=$ggrow['gg_pic']?>" width="950px" height="350px" alt="<?=$ggrow['gg_title']?>" /></a>
+					
 					<?php }?>
-		</div>
-      </div>
 			</div>
-			
+      		</div>
+		</div>
+		<!--  
+		<div class="left_con">
+		<div class="intag">
 		
-			</div>
+			<?php foreach ($classList as $row) {?>
+			<ul>
+			<li class="intag0"><?php echo $row['name'];?></li>
+			<?php 
+			$clist = ClassData::getList($row['class_id']);
+			foreach ($clist as $row) {
+				echo '<li><a href="/front/list.php?cid='.$row['class_id'].'" target="_blank">'.$row['name'].'</a></li>';
+			}
+			?>
+			</ul><?php }?>	
 		</div>
+		</div>
+		<div class="right_con">
+		</div>
+		-->
+		</div>		
 		<!--广告及目录结束 -->
-		<!-- 玩具栏目开始 -->
-		<div id="clearboth"></div>
-		<div class="tt"><h3>玩好</h3></div>
-			<div class="class_bb baobei">
-				<ul>
-					<?php for($i = 1; $i < 9; $i++){?>
-					<li><img src="/assets/images/yaoyao.gif" />
-						<p>faafdafa</p>
-						<div class="b_line">
-							<div class="like_b">
-							</div>
-							<div class="pinglun">
-							</div>
-						</div>
-					</li>
-					<?php }?>
-				</ul>
-			</div>
-		<!-- 玩具栏目结束-->
-		<!-- 宝宝衣服栏目开始 -->
-		<div id="clearboth"></div>
-		<div class="tt"><h3>穿好</h3></div>
-			<div class="class_bb baobei">
-				<ul>
-					<?php for($i = 1; $i < 9; $i++){?>
-					<li><img src="/assets/images/yaoyao.gif" />
-						<p>faafdafa</p>
-						<div class="b_line">
-							<div class="like_b">
-							</div>
-							<div class="pinglun">
-							</div>
-						</div>
-					</li>
-					<?php }?>
-				</ul>
-			</div>
 		
-		<!-- 宝贝衣服栏目结束-->
-		<!-- 宝宝营养栏目开始 -->
+		<!-- 商品栏目开始 -->
+		<?php foreach ($classList as $parent) {?>
 		<div id="clearboth"></div>
-		<div class="tt"><h3>吃好</h3></div>
+		<div class="tt">
+		<ul class="intags">
+		<?php 
+			$clist = ClassData::getList($parent['class_id']);
+			echo '<li class="intag0"><a href="/front/list.php?cid='.$parent['class_id'].'" target="_blank">'.$parent['name'].'</a></li>';
+			foreach ($clist as $row ){
+				echo '<li class="intag"><a href="/front/list.php?cid='.$row['class_id'].'" target="_blank">'.$row['name'].'</a></li>';
+			}
+		?>
+		</ul>
+		</div>
+		
 			<div class="class_bb baobei">
 				<ul>
-					<?php for($i = 1; $i < 9; $i++){?>
-					<li><img src="/assets/images/yaoyao.gif" />
-						<p>faafdafa</p>
-						<div class="b_line">
-							<div class="like_b">
-							</div>
-							<div class="pinglun">
-							</div>
-						</div>
-					</li>
-					<?php }?>
-				</ul>
-			</div>
-		<!-- 宝贝营养栏目结束-->
-		<!-- 母婴用品栏目开始 -->
-		<div id="clearboth"></div>
-		<div class="tt"><p>用好</p></div>
-			<div class="class_bb baobei">
-				<ul>
-					<?php for($i = 1; $i < 9; $i++){?>
-					<li><img src="/assets/images/yaoyao.gif" />
-						<p>faafdafa</p>
-						<div class="b_line">
-							<div class="like_b">
-							</div>
-							<div class="pinglun">
-							</div>
-						</div>
-					</li>
-					<?php }?>
-				</ul>
-			</div>
-		<!-- 母婴用品栏目结束-->
-		<!-- 妈咪栏目开始 -->
-		<div id="clearboth"></div>
-		<div class="tt"><p>妈咪好</p></div>
-			<div class="class_bb baobei">
-				<ul>
-					<?php for($i = 1; $i < 9; $i++){?>
-					<li><a href="#"><img src="/assets/images/yaoyao.gif" /></a>
+					<?php  $wanhao = Product::getListByOrder($parent['name']);
+					foreach ($wanhao as $wan){?>
+					<li><a href="/front/item.php?tid=<?=$wan['prod_id']?>"><img src="<?=$wan['main_img']?>" /></a>
 						<div class="xiaol">
-							<div class="jiage"><span>￥200</span>
+							<div class="jiage"><span>￥<?=$wan['price']?>RMB</span>
 							</div>
-							<div class="xl"><span>月销量111111件</span></div>
 						</div>
-						<p>faafdafa</p>
+						<p><?=$wan['title']?></p>
 						<div class="b_line">
 							<div class="like_b">
-<!-- 【必填】type：选择喜欢的类型，可选项2,3,4：2表示商品喜欢（将与商品详情页下的喜欢数组打通）、4表示店铺喜欢、3表示网页喜欢
-【必填】key：type为2时key填itemid，type为4时填shopid，type为webpage时填当前喜欢页面的链接地址
-skinType：样式的类型1,2可选：1为橙色版、2为蓝色版 text：默认文案 -->
-							<div data-like='{text:"喜欢",skinType:2,type:2,key:"<?=$i?>",client_id:68}'
+							<div data-like='{text:"喜欢",skinType:2,type:2,key:"<?=$wan['item_id']?>",client_id:68}'
 								class="sns-widget">喜欢</div>
 							</div>
-							<div class="pinglun"><a href="#">评论</a>
-							</div>
-						</div>
-					</li>
+							<div class="pinglun"><a href="/front/item.php?tid=<?=$wan['prod_id']?>#pl">评论</a></div>
+					</div></li>
 					<?php }?>
 				</ul>
 			</div>
-		<!-- 妈咪栏目结束-->
+		<!-- 商品栏目结束-->
+		<?php }?>
+		
+		
 		<!-- 友情链接Begin -->
 		<div id="clearboth"></div>
 		

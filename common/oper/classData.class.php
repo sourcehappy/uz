@@ -20,7 +20,30 @@ class ClassData {
 			return $db->getAll('select `name`,class_id from `vg_class` where class_id='.$classId);
 		}
 	}
-	
+	public static function getClassId($name)
+	{
+		$db = DB::instance();
+		if(!empty($name))
+		{
+			$name = trim($name);
+			$sql = "select class_id,name from vg_class where name='$name'";
+			$ret= $db->getOne($sql);
+			return $ret;
+		}
+	}
+	public static function getChildren($parentName)
+	{
+		$db = DB::instance();
+		if(!empty($parentName))
+		{
+			$name = trim($name);
+			$sql = "select class_id,name from vg_class where parent_class_id in (select class_id from vg_class where name='$name')";
+			$ret = $db->getAll($sql);
+// 			print_r($ret);
+			return $ret;
+		}
+		
+	}
 	public static function getName($classId, $getOne = false) {
 		if ($classId <= 0) return '';
 		$db = DB::instance();
